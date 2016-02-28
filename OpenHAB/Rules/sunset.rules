@@ -1,0 +1,12 @@
+rule "Example Rule at sunrise"
+when
+    Item Sunrise_Event received update ON
+then
+    sendCommand(OS_Front_Door_Light, OFF)
+end
+
+rule "Example Rule at sundown"
+when
+    Item Sunset_Event received update ON
+then
+    sendCommand(OS_Front_Door_Light, ON)

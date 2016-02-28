@@ -1,0 +1,19 @@
+rule "send notification"
+when
+	Item Light_Gf_Living_Lamp changed
+then
+
+sendNotification("paulhammond21@gmail.com", "test notificationnn")
+
+end
+
+
+rule "send notification"
+when
+	Item Door_Front changed from CLOSED to OPEN
+then
+
+sendNotification("paulhammond21@gmail.com", "Front Door Open!")
+
+end
+

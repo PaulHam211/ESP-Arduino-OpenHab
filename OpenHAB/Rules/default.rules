@@ -1,0 +1,28 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+ 
+var HSBType hsbValue
+var int redValue
+var int greenValue
+var int blueValue
+var String RGBvalues
+ 
+rule "Set flNachtlicht value"
+   when
+   Item flNachtlicht changed
+   then
+   hsbValue = flNachtlicht.state as HSBType 
+ 
+   redValue = hsbValue.red.intValue
+   greenValue = hsbValue.green.intValue
+   blueValue = hsbValue.blue.intValue
+ 
+   postUpdate(flNachtlicht_R, redValue)
+   postUpdate(flNachtlicht_G, greenValue)
+   postUpdate(flNachtlicht_B, blueValue)
+ 
+   RGBvalues= "Values" + redValue.toString + ";" + greenValue.toString + ";" + blueValue.toString
+   logInfo( "flNachtlicht", RGBvalues )
+ 
+end

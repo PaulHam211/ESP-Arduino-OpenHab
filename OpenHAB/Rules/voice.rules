@@ -1,0 +1,100 @@
+rule "VOICE Lamp ON OFF"
+when
+                Item VoiceCommand received command "Lounge light on"
+        then
+                Light_Gf_Living_Lamp.sendCommand(ON)
+end
+
+rule "VOICE Living Lamp OFF"
+when
+                Item VoiceCommand received command "Lounge light off"
+        then
+                Light_Gf_Living_Lamp.sendCommand(OFF)
+end
+
+
+
+rule "VOICE mood light ON OFF"
+when
+                Item VoiceCommand received command "Lounge mood on"
+        then
+                flFLOOD.sendCommand(ON)
+end
+
+rule "VOICE Living Lamp OFF"
+when
+                Item VoiceCommand received command "Lounge mood off"
+        then
+                flFLOOD.sendCommand(OFF)
+end
+
+
+
+rule "VOICE garage light ON OFF"
+when
+                Item VoiceCommand received command "garage light on"
+        then
+                Light_G_Ceiling.sendCommand(ON)
+end
+
+rule "VOICE Living Lamp OFF"
+when
+                Item VoiceCommand received command "garage light off"
+        then
+                Light_G_Ceiling.sendCommand(OFF)
+end
+
+
+
+rule "moodlamps ON"
+when
+                Item VoiceCommand received command "all mood lights on"
+        then
+                MoodLights.sendCommand(ON)
+end
+
+rule "moodlamps OFF"
+when
+                Item VoiceCommand received command "all mood lights off"
+        then
+                MoodLights.sendCommand(OFF)
+end
+
+
+rule "Christmas ON"
+when
+                Item VoiceCommand received command "Christmas on"
+        then
+                Light_Remote1.sendCommand(ON)
+end
+
+rule "Christmas OFF"
+when
+                Item VoiceCommand received command "Christmas off"
+        then
+                Light_Remote1.sendCommand(OFF)
+end
+
+
+
+rule "Scene TV"
+when
+                Item VoiceCommand received command "TV time"
+        then
+                Scene_General.sendCommand(1)
+end
+
+
+rule "Scene Dinner"
+when
+                Item VoiceCommand received command "dinner time"
+        then
+                Scene_General.sendCommand(2)
+end
+
+rule "Scene Bed"
+when
+                Item VoiceCommand received command "bedtime"
+        then
+                Scene_General.sendCommand(3)
+end

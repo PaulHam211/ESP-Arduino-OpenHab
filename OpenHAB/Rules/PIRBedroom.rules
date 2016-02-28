@@ -1,0 +1,59 @@
+import org.openhab.core.library.types.*
+import org.openhab.model.script.actions.*
+
+var int counter = 0
+var int lastCheck = 0
+
+rule "bedroom motion"
+when
+	Item PIR_2 changed from CLOSED to OPEN
+
+then
+	   logInfo("motion_sensor", "Detected bedroom motion, switching lights on!")
+
+        counter = counter + 1;
+        sendCommand(Bedroom_Presence, ON)
+
+if (Dark_Outside.state == ON)
+        {   
+    if(now.getHourOfDay<5) {
+    	sendCommand(Light_CoolWarm1N, ON)
+		logInfo("motion_sensor", "Between hours of Midnight - 5am (Nightmode)")
+} else {
+
+    if(Scene_General.state == 4) {
+		logInfo("motion_sensor", "House scene is OFF, No bright lights")
+} else {
+	sendCommand(Light_Remote3, ON)
+	sendCommand(Light_CoolWarm1B, ON)
+		}
+}}
+end
+
+
+rule "switch bedroom light off after 5 min"
+
+when   
+       // runs every five minutes
+       Time cron "0 0/1 * * * ?"
+then   
+       	// logInfo("motion_sensor", "checking if we can switch off... " + lastCheck + " " + counter)
+        if (lastCheck == counter) {
+	counter = 0
+	lastCheck = -1;
+	 
+	      if (Bedroom_Presence.state == ON && PIR_2.state == CLOSED)
+	      {
+	logInfo("motion_sensor", "Switching bedroom lights off!")
+	sendCommand(Bedroom_Presence, OFF)
+	sendCommand(Light_Remote3, OFF)
+	sendCommand(Light_CoolWarm1B, OFF)	
+	sendCommand(Light_CoolWarm1N, OFF)
+	      }
+	      
+	} else {
+              lastCheck = counter
+              logInfo("motion_sensor", "No presence detected in the Bedroom.")
+
+        }
+end

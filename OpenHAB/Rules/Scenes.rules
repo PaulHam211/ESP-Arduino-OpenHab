@@ -1,0 +1,63 @@
+import org.openhab.core.library.types.DecimalType
+
+
+
+
+rule "Activate Scene None"
+when
+	Item Scene_General received command 0
+then
+	logInfo("Scenes", "None")
+end
+
+
+
+rule "Activate Scene TV"
+when
+	Item Scene_General received command 1
+then
+	logInfo("Scenes", "Living Room - TV Scene Active")
+	sendCommand(flFLOOD, ON)
+	sendCommand(Light_Remote1, ON)
+
+end
+
+
+
+rule "Activate Scene Dinner"
+when
+	Item Scene_General received command 2
+then
+	logInfo("Scenes", "Living Room - Dinner Scene Active")
+		sendCommand(Light_CoolWarm1B, 70)
+
+end
+
+
+
+rule "Activate Scene Bed"
+when
+	Item Scene_General received command 3
+then
+	logInfo("Scenes", "House - Bed")
+	sendCommand(MoodLights, OFF)
+	sendCommand(Light_Remote1, OFF)
+	sendCommand(Light_Remote3, ON)
+	sendCommand(Light_GroundfloorN, ON)
+	sendCommand(Light_CoolWarm1B, 30)
+	
+end
+
+rule "Activate Scene OFF"
+when
+        Item Scene_General received command 4
+then
+        logInfo("Scenes", "House - OFF")
+        sendCommand(MoodLights, OFF)
+        sendCommand(Light_Remote1, OFF)
+        sendCommand(Light_GroundfloorN, OFF)
+        sendCommand(Light_CoolWarm1B, OFF)
+        sendCommand(Light_Remote3, OFF)
+
+        
+end

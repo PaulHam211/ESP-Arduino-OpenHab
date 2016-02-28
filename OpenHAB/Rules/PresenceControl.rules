@@ -1,0 +1,21 @@
+rule "Set scene when arrived home"
+when
+    Item Presence changed from OFF to ON
+then
+	Scene_General.sendCommand(1)
+	logInfo("PresenceControl", "Someone is home, Lights turned ON")
+
+    	if (Dark_Outside.state == ON)
+        {
+	sendCommand(Light_CoolWarm1B, 100)
+	logInfo("PresenceControl", "Also, its dark so bedside lamp turned ON")
+        }
+                        
+                        
+rule "Set scene when left home"
+when
+    Item Presence changed from ON to OFF
+then                     
+	Scene_General.sendCommand(4)
+	logInfo("PresenceControl", "Nobody home, Lights turned off")
+

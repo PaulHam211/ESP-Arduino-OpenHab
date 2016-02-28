@@ -1,0 +1,56 @@
+rule "Presence - Paul"
+when
+	Item phone1 changed from OFF to ON
+then
+
+    logInfo("Presence", "Paul is Home")
+
+end
+
+
+rule "Presence - Eve"
+when
+	Item phone2 changed from OFF to ON
+then
+
+    logInfo("Presence", "Eve is Home")
+
+end
+
+
+rule "Presence - Paul Out"
+when
+	Item phone1 changed from ON to OFF
+then
+
+    logInfo("Presence", "Paul Has Left")
+
+end
+
+rule "Presence - Eve Out"
+when
+	Item phone2 changed from ON to OFF
+then
+
+    logInfo("Presence", "Eve Has Left")
+
+end
+
+
+rule "LogInfo - FrontDoor Open"
+when
+	Item Door_Front changed from CLOSED to OPEN
+then
+
+    logInfo("FrontDoor", "FrontDoor - OPEN")
+
+end
+
+rule "LogInfo - FrontDoor Closed"
+when
+	Item Door_Front changed from OPEN to CLOSED
+then
+
+    logInfo("FrontDoor", "FrontDoor - CLOSED")
+
+end

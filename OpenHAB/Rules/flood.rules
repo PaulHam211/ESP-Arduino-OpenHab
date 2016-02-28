@@ -1,0 +1,28 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+ 
+var HSBType hsbValue
+var int redValue
+var int greenValue
+var int blueValue
+var String RGBvalues
+ 
+rule "Set flFLOOD value"
+   when
+   Item flFLOOD changed
+   then
+   hsbValue = flFLOOD.state as HSBType 
+ 
+   redValue = hsbValue.red.intValue
+   greenValue = hsbValue.green.intValue
+   blueValue = hsbValue.blue.intValue
+ 
+   postUpdate(flFLOOD_R, redValue)
+   postUpdate(flFLOOD_G, greenValue)
+   postUpdate(flFLOOD_B, blueValue)
+ 
+   RGBvalues= "Values" + redValue.toString + ";" + greenValue.toString + ";" + blueValue.toString
+   logInfo( "flFLOOD", RGBvalues )
+ 
+end

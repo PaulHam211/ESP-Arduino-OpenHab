@@ -1,0 +1,12 @@
+rule "Dark Outside"
+when
+    Item Sunset_Event received update ON
+then
+    sendCommand(Dark_Outside, ON)
+end
+
+rule "Light Outside"
+when
+    Item Sunrise_Event received update ON
+then
+    sendCommand(Dark_Outside, OFF)
