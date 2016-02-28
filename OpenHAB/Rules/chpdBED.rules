@@ -1,0 +1,6 @@
+rule "CHPD Button Toggle"
+when
+	Item CHPDLIGHT received update
+then
+	Scene_General.sendCommand(4)
+end

@@ -1,0 +1,11 @@
+rule "CHPD Button Toggle"
+when
+	Item CHPDBUT received update
+then
+	if (CHPDLIGHT.state == ON) {
+		sendCommand(CHPDLIGHT, OFF)
+	}
+	else if (CHPDLIGHT.state == OFF) {
+		sendCommand(CHPDLIGHT, ON)
+	}
+end
