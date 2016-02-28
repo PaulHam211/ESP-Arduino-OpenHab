@@ -1,0 +1,123 @@
+sitemap demo label="Main Menu"
+	{
+	
+Frame label="Scenes" icon="house" {
+		Switch item=Scene_General label="Scene" mappings=[0=None, 1=TV, 2=Dinner, 3=Bed, 4=Off]
+}
+	
+Frame
+	{
+		Group 	item=GF 					label="Ground Floor" 		icon="groundfloor"
+		Group 	item=FF						label="First Floor" 		icon="firstfloor"
+	/*	Group 	item=C						label="Cellar" 				icon="cellar"		*/
+		Group 	item=G	 					label="Garage" 				icon="garage"		
+		Group 	item=Outdoor 				label="Outdoors"  			icon="garden" 		
+		Group 	item=Temperature 			label="Temperatures"  		icon="temperature"	
+		Group 	item=TemperatureOut 		label="TemperatureOut"		icon="temperature"	
+		Group 	item=Humidity 				label="Humidity"  			icon="water"
+		Group 	item=HumidityOut 			label="Outdoor Humidity"	icon="water"	
+		Group 	item=Tests 					label="Tests"  				icon="garden" 
+        Group   item=Tests1                 label="Tests1"              icon="garden"
+        Group   item=MiLight                label="MiLight"             icon="hue-on"
+		Group 	item=gMobiles 					label="Presence" 		icon="phone"
+
+		Text item=Date
+
+	}
+	
+		
+	Frame label="Nest" icon="house" {
+  
+	Switch item=home_away mappings=[home="Home",away="Away"]
+
+    Text 		item=living_room_ambient_temperature_c visibility=[living_room_temperature_scale=="C"]
+	
+	Setpoint	item=living_room_target_temperature_c label="Target Temperature [%.1f °C]" minValue="45" maxValue="70" step="1" visibility=[living_room_hvac_mode=="heat",living_room_hvac_mode=="cool"]
+    Setpoint 	item=living_room_target_temperature_low_c label="Minimum Temperature [%.1f °C]" minValue="50" maxValue="80" step="1" visibility=[living_room_hvac_mode=="heat-cool"]
+    Setpoint 	item=living_room_target_temperature_high_c label="Maximum Temperature [%.1f °C]" minValue="50" maxValue="80" step="1" visibility=[living_room_hvac_mode=="heat-cool"]
+
+    Text 		item=living_room_humidity
+    Switch 		item=living_room_hvac_mode mappings=[heat="ON",off="OFF"]
+    Text 		item=living_room_away_temperature_low_c visibility=[home_away=="away",home_away=="auto-away"]
+    Text 		item=living_room_away_temperature_high_c visibility=[home_away=="away",home_away=="auto-away"]
+    Text		item=living_room_last_connection
+  }
+  
+/*
+Frame label="Temperature Graph" {
+        Chart label="Woodshed TEMP" item=Temperature_Woodshed period=D refresh=1000
+        }
+        
+Frame label="Humidity Graph" {
+        Chart label="Woodshed HUM" item=Humidity_Woodshed period=D refresh=1000
+        }
+*/
+
+Frame label="Demo"
+	{
+Text label="Group Demo" icon="firstfloor"
+	{
+	
+	Frame label="Scenes" {
+				Selection item=Scene_General label="Scene Selection" mappings=[0=off, 1=TV, 2=Dinner, 3=Bed, 4=Off]
+				Switch item=Scene_General label="Scene" mappings=[0=None, 1=TV, 2=Dinner, 3=Bed, 4=Off]
+	
+	Selection item=Light_scene mappings=[0="weiß", 1="rot", 2="gelb", 3="grün", 4="dunkelgrün", 5="cyan", 6="blau", 7="magenta"]
+
+			}
+			
+	  Frame label="Overview" {
+		Switch 	item=Lights mappings=[OFF="All Off"]
+		Switch 	item=MoodLights mappings=[OFF="All Off"]
+		Group 	item=Doors
+		Text	item=Temperature
+		}
+		  Frame label="Groups" {
+		  		Group 	item=Lights
+		  		Group 	item=MoodLights 
+		  		Group 	item=Doors
+		  		Group 	item=PIR 
+		}
+	}
+	}
+
+Frame label="LED Strip" {
+   Text label="LEDSTRIP" icon="colorwheel" {
+   Frame label="Mood Lighting" {
+      Colorpicker item=flNachtlicht icon="slider"
+   	}
+   	   Frame label="Mood Flood" {
+      Colorpicker item=flFLOOD icon="slider"
+   	}
+	}
+	}
+	
+	
+	Frame label="Find iPhone/iPad" {
+   Text label="Find iPhone/iPad" icon="phone" {
+   
+   Frame label="Eve's iPhone" {
+		Switch item=iPhoneFindEve mappings=[ON="Find"]
+		Switch item=iPhoneLockEve mappings=[ON="Lock"]
+   	}
+   	
+   	   Frame label="Eve's iPad" {
+		Switch item=iPadFindEve mappings=[ON="Find"]
+		Switch item=iPadLockEve mappings=[ON="Lock"]
+   	}
+   	
+   	   Frame label="Paul's iPad" {
+		Switch item=iPadFindPaul mappings=[ON="Find"]
+		Switch item=iPadLockPaul mappings=[ON="Lock"]
+   	} 
+	}
+}
+
+Frame label="Persistence Charts" {
+   Text label="Persistence Charts" icon="phone" {
+
+Chart item=Presence_Paul period=D refresh=30000
+Chart item=Presence_Eve period=D refresh=30000
+}
+}
+
