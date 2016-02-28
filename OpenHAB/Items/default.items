@@ -1,0 +1,230 @@
+Group All
+Group GF 				(All)
+Group FF 				(All)
+Group C 				(All)
+Group G 				(All)
+Group Outdoor 			(All)
+Group Shutters 			(All)
+Group Weather 			(All)
+Group Status 			(All)
+Group Temperature		(All)
+Group TemperatureOut	(All)
+Group Humidity	 		(All)
+Group HumidityOut	 	(All)
+Group gMobiles
+Group MiLight	 		(All)
+
+Group Tests 			(All)
+Group Tests1            (All)
+
+
+Group    gMyOpenHAB
+
+
+Group GF_Living 				"Living Room" 		<video> 		(GF)
+/* Group GF_Kitchen 			"Kitchen" 			<kitchen> 		(GF)
+Group GF_Toilet 				"Toilet" 			<bath> 			(GF)
+Group GF_Utility 				"Utility" 			<dryer> 		(GF) */
+Group GF_Conservatory 			"Conservatory" 		<corridor>		(GF)
+Group OS_Front					"Front of House" 	<garden>		(Outdoor)
+
+
+/*
+Group FF_Bath 				"Bathroom" 			<bath> 			(FF)
+Group FF_Spare					"Spare Room" 		<bedroom> 		(FF)
+Group FF_Hallway 			"Hallway" 			<corridor> 		(FF)
+*/
+
+Group FF_Bed 					"Bedroom" 			<bedroom> 		(FF)
+Group FF_Office 				"Office" 			<computer> 		(FF)
+
+
+DateTime    Date    "Date and Time: [%1$tA, %1$td.%1$tm.%1$tY %1$tT]"  (Status)   { ntp="Europe/London:en_EN" } 
+
+/* active groups */
+Group:Switch:OR(ON, OFF) 		Lights 			"All Lights [(%d)]" 								(All)
+Group:Switch:OR(ON, OFF) 		MoodLights 		"All Mood Lights [(%d)]" 							(All)
+Group:Number:AVG 				Temperature		"Avg. Room Temperature [%.1f °C]" 	<temperature>	(Status)
+Group:Contact:OR(OPEN, CLOSED) 	Doors 			"Open Doors [(%d)]"					<contact>		(All)
+Group:Contact:OR(OPEN, CLOSED) 	PIR 			"Motion Sensors [(%d)]"				<contact>		(All)
+
+String VoiceCommand
+
+
+
+/* MoodLights */
+
+Color flNachtlicht		"Ceiling Glow" 							(GF_Conservatory, MoodLights)
+Group  gLEDSTRIP		"LEDSTRIP"      		<corridor>		(gAlles)
+Group  gNachtlicht		"Ceiling Glow"  		<corridor>		(gFlur)
+Color  flNachtlicht		"Ceiling Glow"			<slider>		(gNachtlicht)
+Dimmer flNachtlicht_R	"Rot [%d %%]"			<switch>		(gNachtlicht)				{mqtt=">[broker:/openHAB/nl/RED:state:*:default]"}
+Dimmer flNachtlicht_G	"Grün [%d %%]"			<switch>		(gNachtlicht)				{mqtt=">[broker:/openHAB/nl/GREEN:state:*:default]"}
+Dimmer flNachtlicht_B	"Blau [%d %%]"			<switch>		(gNachtlicht)				{mqtt=">[broker:/openHAB/nl/BLUE:state:*:default]"}
+
+
+
+Color flFLOOD			"Ceiling Glow flood" 					(GF_Living, MoodLights)
+/* Group  gLEDSTRIP2	"LEDSTRIP2"   		   	<corridor>		(gAlles) */
+Group  GFLOOD			"Ceiling Glow Flood" 	<corridor>		(gFlur)
+Color  flFLOOD			"RGB FLOOD"				<slider>		(gNachtlicht)
+Dimmer flFLOOD_R		"Rot [%d %%]"			<switch>		(gNachtlicht)				{mqtt=">[broker:/openHAB/flood1/RED:state:*:default]"}
+Dimmer flFLOOD_G		"Grün [%d %%]"			<switch>		(gNachtlicht)				{mqtt=">[broker:/openHAB/flood1/GREEN:state:*:default]"}
+Dimmer flFLOOD_B		"Blau [%d %%]"			<switch>		(gNachtlicht)				{mqtt=">[broker:/openHAB/flood1/BLUE:state:*:default]"}
+
+
+
+/* Lights */
+Switch Light_G_Ceiling		"Ceiling Garage"	(G, Lights)			{mqtt=">[broker:/gar/relay/1/com/:command:on:1],>[broker:/gar/relay/1/com/:command:off:0],<[broker:/gar/relay/1/state/:state:default]"}
+Switch Light_G_Ceiling2		"Unused"			(G, Lights)			{mqtt=">[broker:/gar/relay/2/com/:command:on:1],>[broker:/gar/relay/2/com/:command:off:0],<[broker:/gar/relay/2/state/:state:default]"}
+Switch OS_Front_Door_Light	"Front Door Lights"	(OS_Front, Lights)	{mqtt=">[broker:/os/frontdoor/relay/1/com/:command:on:1],>[broker:/os/frontdoor/relay/1/com/:command:off:0],<[broker:/os/frontdoor/relay/1/state/:state:default]"}
+
+Switch CHPDBUT				"CHPDBUT"			(Tests)				{mqtt=">[broker:/chpd/light/com/:command:on:1],>[broker:/chpd/light/com/:command:off:0],<[broker:/chpd/light/state/:state:default]"}
+Switch CHPDLIGHT			"CHPDLIGHT"			(Tests) 
+
+
+
+/* Indoor Temperatures */
+Number Temperature_Woodshed			"Woodshed Temp [%.1f °C]" 	<temperature>	(TemperatureOut, Outdoor) {mqtt="<[broker:/woodshed/temp/:state:default]"}
+/* 
+NOT MADE YET
+Number 	_GF_Hallway 				"Temperature [%.1f °C]"		<temperature>	(Temperature, GF_Hallway)
+Number Temperature_GF_Toilet 		"Temperature [%.1f °C]"		<temperature>	(Temperature, GF_Toilet)
+Number Temperature_GF_Living 		"Temperature [%.1f °C]"		<temperature>	(Temperature, GF_Living)
+Number Temperature_GF_Kitchen 		"Temperature [%.1f °C]"		<temperature>	(Temperature, GF_Kitchen)
+Number Temperature_GF_Utility		"Temperature [%.1f °C]"		<temperature>	(Temperature, GF_Utility)
+Number Temperature_GF_Conservatory 	"Temperature [%.1f °C]"		<temperature>	(Temperature, GF_Conservatory)
+Number Temperature_FF_Bath 			"Temperature [%.1f °C]"		<temperature>	(Temperature, FF_Bath)
+Number Temperature_FF_Office 		"Temperature [%.1f °C]"		<temperature>	(Temperature, FF_Office)
+Number Temperature_FF_Spare			"Temperature [%.1f °C]"		<temperature>	(Temperature, FF_Spare)
+Number Temperature_FF_Bed 			"Temperature [%.1f °C]"		<temperature>	(Temperature, FF_Bed)
+*/
+
+
+
+/* Indoor Humidity */
+Number Humidity_Woodshed			"Woodshed Humidity [%.1f °C]"	<Humidity>	(HumidityOut, Outdoor) {mqtt="<[broker:/woodshed/hum/:state:default]"}
+/*
+NOT MADE YET
+Number Humidity_GF_Hallway 			"Humidity [%.1f %%]"	<Humidity>			(Humidity, GF_Hallway)
+Number Humidity_GF_Toilet 			"Humidity [%.1f %%]"	<Humidity>			(Humidity, GF_Toilet)
+Number Humidity_GF_Living 			"Humidity [%.1f %%]"	<Humidity>			(Humidity, GF_Living)
+Number Humidity_GF_Kitchen 			"Humidity [%.1f %%]"	<Humidity>			(Humidity, GF_Kitchen)
+Number Humidity_GF_Utility			"Humidity [%.1f %%]"	<Humidity>			(Humidity, GF_Utility)
+Number Humidity_GF_Conservatory 	"Humidity [%.1f %%]"	<Humidity>			(Humidity, GF_Conservatory)
+Number Humidity_FF_Bath 			"Humidity [%.1f %%]"	<Humidity>			(Humidity, FF_Bath)
+Number Humidity_FF_Office 			"Humidity [%.1f %%]"	<Humidity>			(Humidity, FF_Office)
+Number Humidity_FF_Spare			"Humidity [%.1f %%]"	<Humidity>			(Humidity, FF_Spare)
+Number Humidity_FF_Bed 				"Humidity [%.1f %%]"	<Humidity>			(Humidity, FF_Bed)
+*/
+
+
+
+/* Doors */
+Contact Door_Garage					"Garage Door [MAP(en.map):%s]"				(G, Doors)						{mqtt="<[broker:/room/door/:state:default]"}
+Contact Door_Front					"Front Door [MAP(en.map):%s]"				(GF, OS_Front, Outdoor, Doors)	{mqtt="<[broker:/os/frontdoor/mag/:state:default]"}
+/*
+NOT MADE YET
+Contact Doors_GF_Frontdoor 			"Frontdoor [MAP(en.map):%s]"				(GF_Hallway, Doors)
+Contact Door_GF_Kitchen 			"Kitchen [MAP(en.map):%s]"					(GF_Kitchen, Doors)
+Contact Door_GF_Living 				"Living Room Door [MAP(en.map):%s]"			(GF_Living, Doors)
+Contact Door_GF_Utility 			"Utility Room Door [MAP(en.map):%s]"		(GF_Utility, Doors)
+Contact Door_GF_Conservatory		"Toilet [MAP(en.map):%s]"					(GF_Conservatory, Doors)
+Contact Door_FF_Bath 				"Bath [MAP(en.map):%s]"						(FF_Bath, Doors)
+Contact Door_FF_Bed 				"Bedroom [MAP(en.map):%s]"					(FF_Bed, Doors)
+Contact Door_FF_Spare				"Spare Bedroom [MAP(en.map):%s]"			(FF_Spare, Doors)
+Contact Door_FF_Office				"Office Door [MAP(en.map):%s]"				(FF_Office, Doors)
+*/
+
+
+
+/* PIR */
+Contact PIR_Garage					"Garage PIR [MAP(en.map):%s]"			(G, PIR)				{mqtt="<[broker:/room/pir/:state:default]"}
+Contact PIR_2						"PIR 2 [MAP(en.map):%s]"				(Tests1, PIR, FF_Bed)			{mqtt="<[broker:/PIR/2/:state:default]"}
+Switch Bedroom_Presence
+
+
+
+/* Sunrise/Sunset */
+DateTime Sunrise_Time   "Sunrise [%1$tl:%1$tM %1$tp]" (OS_Front) {astro="planet=sun, type=rise, property=start"}
+DateTime Sunset_Time    "Sunset [%1$tl:%1$tM %1$tp]"  (OS_Front) {astro="planet=sun, type=set, property=end"}
+Switch   Sunrise_Event                       					 {astro="planet=sun, type=rise, property=start, offset=0"}
+Switch   Sunset_Event                  				      		 {astro="planet=sun, type=set, property=end, offset=0"}
+Switch Dark_Outside
+
+
+
+/* Scenes */
+Number Scene_General			"Scene"					<sofa>
+
+
+
+/* Nest binding Items */
+String		home_away 								"Home/Away [%s]" 	<present> (Nest) { nest="=[structures(Home).away]" }
+DateTime	living_room_last_connection				"Last Connection [%1$tm/%1$td/%1$tY %1$tH:%1$tM:%1$tS]" <calendar> (Nest) {nest="<[thermostats(Living Room).last_connection]"}
+String		living_room_hvac_mode 					"HVAC Mode" <climate> (Nest) { nest="=[thermostats(Living Room).hvac_mode]" }
+String		living_room_temperature_scale 			"Temperature Scale [%s]" (Nest) { nest="<[thermostats(Living Room).temperature_scale]" }
+Number		living_room_ambient_temperature_c 		"Temperature Nest [%.1f °C]" <temperature> (Nest, Temperature) { nest="<[thermostats(Living Room).ambient_temperature_c]" }
+Number		living_room_humidity 					"Humidity Nest [%d %%]" <Humidity> (Nest, Humidity) { nest="<[thermostats(Living Room).humidity]" }
+Number		living_room_target_temperature_c		"Target Temperature [%.1f °C]" <temperature> (Nest) { nest="=[thermostats(Living Room).target_temperature_c]" }
+Number		living_room_target_temperature_low_c	"Minimum Temperature [%.1f °C]" <temperature> (Nest) { nest="=[thermostats(Living Room).target_temperature_low_c]" }
+Number		living_room_target_temperature_high_c 	"Maximum Temperature [%.1f °C]" <temperature> (Nest) { nest="=[thermostats(Living Room).target_temperature_high_c]" }
+Number		living_room_away_temperature_low_c 		"Minimum Away Temp. [%.1f °C]" <temperature> (Nest) { nest="<[thermostats(Living Room).away_temperature_low_c]" }
+Number		living_room_away_temperature_high_c 	"Maximum Away Temp. [%.1f °C]" <temperature> (Nest) { nest="<[thermostats(Living Room).away_temperature_high_c]" }
+
+
+
+/* Remote Sockets 433mhz */
+Switch Light_Remote1 		"Fireplace"		 	(Tests, GF_Living, Lights)	{exec=">[OFF:sudo /opt/openhab/custom_scripts/433/1switch0.sh 1] >[ON:sudo /opt/openhab/custom_scripts/433/1switch1.sh 1]"}
+Switch Light_Remote2 		"Remote 2" 			(Tests)						{exec=">[OFF:sudo /opt/openhab/custom_scripts/433/2switch0.sh 1] >[ON:sudo /opt/openhab/custom_scripts/433/2switch1.sh 1]"}
+Switch Light_Remote3 		"Bedside Lamp" 		(Tests, FF_Bed, Lights)		{exec=">[OFF:sudo /opt/openhab/custom_scripts/433/3switch0.sh 1] >[ON:sudo /opt/openhab/custom_scripts/433/3switch1.sh 1]"}
+Switch Light_Remote4 		"Remote 4" 			(Tests)						{exec=">[OFF:sudo /opt/openhab/custom_scripts/433/4switch0.sh 1] >[ON:sudo /opt/openhab/custom_scripts/433/4switch1.sh 1]"}
+Switch Light_Remote5 		"Office Light" 		(Tests, FF_Office)			{exec=">[OFF:sudo /opt/openhab/custom_scripts/433/5switch0.sh 1] >[ON:sudo /opt/openhab/custom_scripts/433/5switch1.sh 1]"}
+
+
+
+/* Find My iPhone/iPad */
+Switch iPhoneFindEve				"Find Eve's iPhone"				{ exec=">[ON:php /opt/openhab/custom_scripts/turnoniphoneeve.php]" }
+Switch iPhoneLockEve				"Lock Eve's iPhone"				{ exec=">[ON:php /opt/openhab/custom_scripts/turnoffiphoneeve.php]" }
+
+Switch iPadFindEve					"Find Eve's iPad"				{ exec=">[ON:php /opt/openhab/custom_scripts/turnonipadeve.php]" }
+Switch iPadLockEve					"Lock Eve's iPad"				{ exec=">[ON:php /opt/openhab/custom_scripts/turnoffipadeve.php]" }
+
+Switch iPadFindPaul					"Find Paul's iPad"				{ exec=">[ON:php /opt/openhab/custom_scripts/turnonipadpaul.php]" }
+Switch iPadLockPaul					"Lock Paul's iPad"				{ exec=">[ON:php /opt/openhab/custom_scripts/turnoffipadpaul.php]" }
+
+
+
+/* Presence Detection */
+Switch Presence (Tests1)
+
+Switch Presence_Paul	"Paul Present IFTT"				(gMobiles)
+Switch Presence_Eve 	"Eve Present IFTT"				(gMobiles)
+Switch PresenceOverride "Override"						(gMobiles)
+
+
+
+/* TESTSS */
+
+Switch OS_Test_Door_Light			"Test Door Lights"	(Tests1, Lights)	{mqtt=">[broker:/os/testdoor/relay/1/com/:command:on:1],>[broker:/os/testdoor/relay/1/com/:command:off:0],<[broker:/os/testdoor/relay/1/state/:state:default]"}
+
+
+/* MiLight Cool/Warm */
+
+Switch Light_CoolWarm1		"CoolWarm Switch" (MiLight)  			{milight="bridge1;4"}                   
+Switch Light_CoolWarm1N 	"CoolWarm Night"  (MiLight)	 			{milight="bridge1;4;nightMode"}  
+Dimmer Light_CoolWarm1B 	"CoolWarm Bright" (MiLight, FF_Bed) 	{milight="bridge1;4;brightness"}   
+Dimmer Light_LivingroomC	"CoolWarm Colour" (MiLight, FF_Bed)  	{milight="bridge1;4;colorTemperature"}  
+
+
+
+/* MiLight */
+
+Switch	Light_Groundfloor		"MiLight Switch"						(MiLight)					{milight="bridge1;6"}
+Dimmer	RGBW_LivingroomB		"MiLight Dimmer"						(MiLight)					{milight="bridge1;6;brightness;27"}                 
+Switch	Light_Groundfloorwh		"MiLight White"							(MiLight)					{milight="bridge1;6;whiteMode"}
+Switch	Light_GroundfloorN		"MiLight NightMode"						(MiLight)					{milight="bridge1;6;nightMode"}       
+Color	Light_Party				"Dimmer RGBW_LivingroomB"   			(MiLight)					{milight="bridge1;6;rgb"}     
+Number	Light_scene				"Scenes"
+Color	Light_scene_ColorSelect "Scene Selector" (Tests1)  <colorwheel> (MiLight)					{milight="bridge1;6;rgb"}
+
