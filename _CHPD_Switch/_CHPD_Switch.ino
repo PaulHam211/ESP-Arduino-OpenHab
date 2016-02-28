@@ -23,7 +23,7 @@ char* password = "..........";       // Router Passcode
 char* server = "..........";         // Mosquitto Server IP
 
 // Topic Defines //
-char* Topic = "/chpd/light/state/";  // Topic to publih message to
+char* Topic = "/chpd/light/state/";  // Topic to publish message to
 char* outTopic = "/DEBUG/";          // Debug topic
 
 // GPIO Defines //
