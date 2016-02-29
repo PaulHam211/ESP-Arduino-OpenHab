@@ -19,12 +19,11 @@ VOIDS
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include "Config.h"
 #include "SSIDPASS.h"
 
 // PIR DEFINES //
 
-// Change Topic to the topic you want to control
-const char* TopicPIR = "/PIR/2/";
 
 // the time we give the sensor to calibrate (10-60 secs according to the datasheet)
 // int calibrationTime = 30;        
@@ -45,8 +44,7 @@ int pirPin = 2;    // the digital pin connected to the PIR sensor's output
 // WiFi DEFINES //
 // SSID & Passcode set in SSIDPASS.h
 
-char* server = "..........";         // Mosquitto Server IP
-char* outTopic = "/DEBUG/";
+char const* outTopic = "/DEBUG/";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -112,11 +110,11 @@ void reconnect() {
     Serial.println("Attempting MQTT connection...");
     // Attempt to connect
 
-    if (client.connect("PIRSensor2")) {
+    if (client.connect(clientid)) {
       Serial.println("MQTT Connected");
       Serial.println("MQTT Connected");
       // Once connected, publish an announcement...
-      client.publish(outTopic, "ESP PIRSensor2 Connected");
+      client.publish(outTopic, debugmess);
       // ... and resubscribe
 
     } else {
@@ -133,7 +131,7 @@ void reconnect() {
 
 void PIR()
 {
-   if (client.connect("PIRSensor2"))
+   if (client.connect(clientid))
   {
      if(digitalRead(pirPin) == HIGH){
        if(lockLow){  
