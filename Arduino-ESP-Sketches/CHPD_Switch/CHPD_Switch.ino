@@ -16,19 +16,13 @@ VOIDS
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include "Config.h"
+#include "SSIDPASS.h"
 
-// WiFi DEFINES //
-char* ssid = "..........";           // Router SSID
-char* password = "..........";       // Router Passcode
-char* server = "..........";         // Mosquitto Server IP
-
-// Topic Defines //
-char* Topic = "/chpd/light/state/";  // Topic to publish message to
-char* outTopic = "/DEBUG/";          // Debug topic
 
 // GPIO Defines //
 int holdPin = 0; // defines GPIO 0 as the hold pin (will hold CH_PD high untill we power down).
-
+char const* outTopic = "/DEBUG/";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -86,11 +80,11 @@ void reconnect() {
   while (!client.connected()) {     // Loop until we're reconnected
     Serial.println("Attempting MQTT connection...");
     
-    if (client.connect("CHPDSWITCH")) {  // ***NEEDS TO BE UNIQUE***
+    if (client.connect(clientid)) {  // ***NEEDS TO BE UNIQUE***
       Serial.println("MQTT Connected");
    
       // Once connected, publish an announcement...
-      client.publish(outTopic, "CHPD Switch Connected");  // To help debug when device is connected
+      client.publish(outTopic, debugmess);  // To help debug when device is connected
       
     } else {
       Serial.print("failed, rc=");
