@@ -19,6 +19,7 @@ VOIDS
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include "SSIDPASS.h"
 
 // PIR DEFINES //
 
@@ -42,11 +43,9 @@ boolean takeLowTime;
 int pirPin = 2;    // the digital pin connected to the PIR sensor's output
 
 // WiFi DEFINES //
+// SSID & Passcode set in SSIDPASS.h
 
-char* ssid = "..........";           // Router SSID
-char* password = "..........";       // Router Passcode
 char* server = "..........";         // Mosquitto Server IP
-
 char* outTopic = "/DEBUG/";
 
 WiFiClient espClient;
