@@ -1,7 +1,7 @@
 /*
 
 PIR Sensor
-Senses movement.
+Senses movement & publishes message to topic
 
 -*-PIR-*-
 When movement is sensed "open" sate is published to TopicPIR, After set time (pause) set back to "closed"
