@@ -1,4 +1,4 @@
 
-char* ssid = "..........";           // Router SSID
-char* password = "..........";       // Router Passcode
+char const* ssid = "..........";           // Router SSID
+char const* password = "..........";       // Router Passcode
 
