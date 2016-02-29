@@ -17,19 +17,10 @@ VOIDS
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include "Config.h"
+#include "SSIDPASS.h"
 
-// WiFi DEFINES //
-
-char* ssid = "..........";           // Router SSID
-char* password = "..........";       // Router Passcode
-char* server = "..........";         // Mosquitto Server IP
-
-// Topic Defines //
-char* TopicCOMRELAY1 = "/gf/livinglamp1/relay/1/com/";
-char* TopicSTATERELAY1 = "/gf/livinglamp1/relay/1/state/";
-
-
-char* outTopic = "/DEBUG/";
+char const* outTopic = "/DEBUG/";
 
 // PIN Defines //
 int RELAY1 = 0;
@@ -90,11 +81,11 @@ void reconnect() {
     Serial.println("Attempting MQTT connection...");
     // Attempt to connect
 
-    if (client.connect("LivingLamp1")) {      // ***NEEDS TO BE UNIQUE***
+    if (client.connect(clientid)) {      // ***NEEDS TO BE UNIQUE***
       Serial.println("MQTT Connected");
       Serial.println("MQTT Connected");
       // Once connected, publish an announcement...
-      client.publish(outTopic, "LivingRoom Lamp1 Connected");
+      client.publish(outTopic, debugmess);
       // ... and resubscribe
       client.subscribe(TopicCOMRELAY1);
 
