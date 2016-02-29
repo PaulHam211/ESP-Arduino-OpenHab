@@ -23,27 +23,16 @@ VOIDS
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include "Config.h"
+#include "SSIDPASS.h"
 
 // DOOR DEFINES //
-
-const char* TopicDOOR = "/os/frontdoor/mag/";  // Topic to publih message to
-
 int buttonPin = 2;
 boolean currentState = LOW;   //Storage for current button state
 boolean lastState = LOW;      //Storage for last button state
 boolean doorState = LOW;      //Storage for the current state of the Door
 
-
-// WiFi DEFINES //
-char* ssid = "..........";           // Router SSID
-char* password = "..........";       // Router Passcode
-char* server = "..........";         // Mosquitto Server IP
-
-// Topic Defines //
-char* TopicCOMRELAY1 = "/os/frontdoor/relay/1/com/";        // Topic READ to publish message from
-char* TopicSTATERELAY1 = "/os/frontdoor/relay/1/state/";    // Topic state to verify message received
-
-char* outTopic = "/DEBUG/";           // Debug topic
+char const* outTopic = "/DEBUG/";           // Debug topic
 
 // PIN Defines //
 int RELAY1 = 0;
@@ -110,11 +99,11 @@ void reconnect() {
     Serial.println("Attempting MQTT connection...");
     // Attempt to connect
 
-    if (client.connect("FrontDoor")) {      // ***NEEDS TO BE UNIQUE***
+    if (client.connect(clientid)) {      // ***NEEDS TO BE UNIQUE***
       Serial.println("MQTT Connected");
       Serial.println("MQTT Connected");
       // Once connected, publish an announcement...
-      client.publish(outTopic, "Front Door Connected");
+      client.publish(outTopic, debugmess);
       // ... and resubscribe
       client.subscribe(TopicCOMRELAY1);
 
