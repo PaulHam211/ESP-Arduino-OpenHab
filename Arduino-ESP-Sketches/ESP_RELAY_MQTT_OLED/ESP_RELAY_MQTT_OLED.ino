@@ -1,23 +1,4 @@
 /*
- *  This sketch demonstrates how to scan WiFi networks. 
- *  The API is almost the same as with the WiFi Shield library, 
- *  the most obvious difference being the different file you need to include:
- *  Comes with Arduino ESP8266 build under examples..
- 
- Modified by DanBicks added OLED display to ESP01 using cheap Ebay 0.96" display
- Lightweight Mike-Rankin OLED routines added in this project, Credits to Mike for this.
- 
- Display indicates WIFI Scan operation, looks for specific access point,
- connects to this if found and displays network connection details on OLED.
- 
- Simple guide for users on how OLED can be implemented in to your project.
- My contribution to this superb community.
- 
- Keep up the fantastic work everyone :)
- 
- I hope you enjoy this sketch.
- 
- Dans
 
  TEMPLATE FOR WRITING TEXT// 16 Character max per line with font set
   
@@ -41,15 +22,15 @@
 char* TopicDOOR = "/room/door/";
 
 int buttonPin = 5;
-boolean currentState = LOW;//stroage for current button state
-boolean lastState = LOW;//storage for last button state
-boolean doorState = LOW;//storage for the current state of the LED (off/on)
+boolean currentState = LOW;    //stroage for current button state
+boolean lastState = LOW;      //storage for last button state
+boolean doorState = LOW;     //storage for the current state of the LED (off/on)
 
 
 // WiFi DEFINES //
-char* ssid = "..........";           // Router SSID
+char* ssid = "..........";            // Router SSID
 char* password = "..........";       // Router Passcode
-char* server = "..........";         // Mosquitto Server IP
+char* server = "..........";        // Mosquitto Server IP
 
 WiFiClient wifiClient;
 PubSubClient client(server, 1883, callback, wifiClient);
