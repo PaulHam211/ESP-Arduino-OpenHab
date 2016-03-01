@@ -35,16 +35,14 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Setup done");
   
-  setup_wifi();
+setup_wifi();
   client.setServer(server, 1883);
   client.setCallback(callback);
 reconnect();
-client.publish(TopicSTATERELAY1,"ON");
-
+  client.publish(TopicSTATERELAY1,"ON");
 }
 
 void loop() {
-
   if (!client.connected()) {
     reconnect();
   }
@@ -53,7 +51,6 @@ void loop() {
 
 
 void setup_wifi() {
-
   delay(10);
   // We start by connecting to a WiFi network
   Serial.println();
@@ -88,8 +85,8 @@ void reconnect() {
       client.publish(outTopic, debugmess);
       // ... and resubscribe
       client.subscribe(TopicCOMRELAY1);
-
-    } else {
+    }
+    else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
@@ -121,7 +118,5 @@ void callback(char* topic, byte* payload, unsigned int length) {
     digitalWrite(RELAY1, HIGH);
     client.publish(TopicSTATERELAY1,"OFF"); 
   }
-
-    }
-
+ }
 }
