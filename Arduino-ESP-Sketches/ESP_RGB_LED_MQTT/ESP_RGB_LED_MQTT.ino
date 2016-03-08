@@ -66,12 +66,12 @@ if (WiFi.waitForConnectResult() != WL_CONNECTED)
     Serial.println("WiFi connected");
     
 // Set green on sucessful WIFI connection
-    LEDgreenValue = 100;
+ //   LEDgreenValue = 100;
  
 // Set startup colour as red
-  analogWrite(LEDred, 100);
-  analogWrite(LEDgreen, 0);
-  analogWrite(LEDblue, 0);
+ // analogWrite(LEDred, 100);
+ // analogWrite(LEDgreen, 0);
+ // analogWrite(LEDblue, 0);
     }
 
 void loop() {
