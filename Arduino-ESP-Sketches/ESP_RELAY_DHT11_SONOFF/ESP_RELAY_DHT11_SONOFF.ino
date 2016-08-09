@@ -105,13 +105,7 @@ void reconnect() {
       client.publish(outTopic, debugmess);
       // ... and resubscribe
       client.subscribe(TopicCOMRELAY1);
-  digitalWrite(LED, LOW);   // Turn the LED ON
-  delay(500);               // Wait for a second
-  digitalWrite(LED, HIGH);  // Turn the LED OFF
-  delay(500);               // Wait for a second
-  digitalWrite(LED, LOW);   // Turn the LED ON
-  delay(500);               // Wait for a second
-  digitalWrite(LED, HIGH);  // Turn the LED OFF
+blink2(2);
 
     } else {
       Serial.print("failed, rc=");
@@ -161,13 +155,22 @@ void DHTSensor()
       
      client.publish(TopicTEMP, t2 );  
      client.publish(TopicHUM, h2 );
-  digitalWrite(LED, LOW);   // Turn the LED ON
-  delay(250);               // Wait for a second
-  digitalWrite(LED, HIGH);  // Turn the LED OFF
+blink2(1);
+
       }
       }
       
-
+void blink2(int count) 
+{
+while(count > 0 )                                   // repeat until count is no longer greater than zero
+{
+digitalWrite(LED, LOW);
+delay(250);
+digitalWrite(LED, HIGH);
+delay(250);
+count= count -1;
+}
+}
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(TopicCOMRELAY1);
@@ -191,13 +194,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
     }
     
-  digitalWrite(LED, LOW);   // Turn the LED ON
-  delay(250);               // Wait for a second
-  digitalWrite(LED, HIGH);  // Turn the LED OFF
-  delay(250);               // Wait for a second
-  digitalWrite(LED, LOW);   // Turn the LED ON
-  delay(250);               // Wait for a second
-  digitalWrite(LED, HIGH);  // Turn the LED OFF
+blink2(2);
+
 }
   
 
