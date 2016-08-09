@@ -30,6 +30,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // PIN Defines //
 int RELAY1 = 12;
+int LED = 13;
 
 // WiFi DEFINES //
 // SSID & Passcode set in SSIDPASS.h
@@ -48,6 +49,8 @@ const long interval = 1800000;           // 0.5hr interval at which to send Temp
 
 void setup() {
   pinMode(RELAY1, OUTPUT);     // Initialize the RELAY pin as an output
+  pinMode(LED, OUTPUT);     // Initialize the LED pin as an output
+  digitalWrite(LED, LOW);   // Turn the LED ON
   Serial.begin(9600);
   
 setup_wifi();
@@ -94,7 +97,7 @@ void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
     Serial.println("Attempting MQTT connection...");
-    // Attempt to connect
+      // Attempt to connect
 
     if (client.connect(clientid)) {
       Serial.println("MQTT Connected");
@@ -102,12 +105,19 @@ void reconnect() {
       client.publish(outTopic, debugmess);
       // ... and resubscribe
       client.subscribe(TopicCOMRELAY1);
+  digitalWrite(LED, LOW);   // Turn the LED ON
+  delay(500);               // Wait for a second
+  digitalWrite(LED, HIGH);  // Turn the LED OFF
+  delay(500);               // Wait for a second
+  digitalWrite(LED, LOW);   // Turn the LED ON
+  delay(500);               // Wait for a second
+  digitalWrite(LED, HIGH);  // Turn the LED OFF
 
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
-     
+
       // Wait 5 seconds before retrying
       delay(5000);
     }
@@ -151,6 +161,9 @@ void DHTSensor()
       
      client.publish(TopicTEMP, t2 );  
      client.publish(TopicHUM, h2 );
+  digitalWrite(LED, LOW);   // Turn the LED ON
+  delay(250);               // Wait for a second
+  digitalWrite(LED, HIGH);  // Turn the LED OFF
       }
       }
       
@@ -177,6 +190,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
 
     }
+    
+  digitalWrite(LED, LOW);   // Turn the LED ON
+  delay(250);               // Wait for a second
+  digitalWrite(LED, HIGH);  // Turn the LED OFF
+  delay(250);               // Wait for a second
+  digitalWrite(LED, LOW);   // Turn the LED ON
+  delay(250);               // Wait for a second
+  digitalWrite(LED, HIGH);  // Turn the LED OFF
 }
   
 
