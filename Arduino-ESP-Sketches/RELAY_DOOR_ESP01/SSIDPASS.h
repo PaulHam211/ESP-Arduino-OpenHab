@@ -1,4 +1,3 @@
-
-char const* ssid = "..........";           // Router SSID
-char const* password = "..........";       // Router Passcode
-
+// WiFi info
+const char* ssid = "BTHub5-ZG53";
+const char* password = "59d49ee597";
