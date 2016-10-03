@@ -1,0 +1,23 @@
+OpenHAB Commands
+
+
+SSH
+
+ssh pi@192.168.1.10
+sudo -s
+
+sudo /etc/init.d/openhab Start
+sudo /etc/init.d/openhab Restart
+sudo /etc/init.d/openhab Stop
+
+sudo nano /etc/init.d/openhab - edit startup script
+tail -f /opt/openhab/logs/openhab.log
+
+
+MQTT
+
+Subscribe
+mosquitto_sub -d -h 192.168.1.10 -t /#
+
+Publish
+mosquitto_pub -h 192.168.1.10 -t /PIR/2/ -m CLOSED
