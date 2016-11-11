@@ -14,16 +14,13 @@ VOIDS
 
 */
 
-// OTA includes
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include "DHT.h"
 #include "Config.h"
 #include "SSIDPASS.h"
+#include "OTA.h"
 
 // DHT DEFINES //
 #define DHTPIN 14     // what digital pin we're connected to
@@ -54,53 +51,11 @@ unsigned long previousMillis = 0;        // will store last time LED was updated
 const long interval = 1800000;           // 0.5hr interval at which to send Temp (milliseconds)
 
 void setup() {
+  OTA_Setup();
 
-  Serial.begin(9600);
-  Serial.println("Booting");
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-  Serial.println("Connection Failed! Rebooting...");
-  delay(5000);
-  ESP.restart();
-  }
-
-  // Port defaults to 8266
-  // ArduinoOTA.setPort(8266);
-
-  // Hostname defaults to esp8266-[ChipID]
-  // ArduinoOTA.setHostname("myesp8266");
-
-  // No authentication by default
-  // ArduinoOTA.setPassword((const char *)"123");
-
-  ArduinoOTA.onStart([]() {
-  Serial.println("Start");
-  });
-  ArduinoOTA.onEnd([]() {
-  Serial.println("\nEnd");
-  });
-  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-  Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-  });
-  ArduinoOTA.onError([](ota_error_t error) {
-  Serial.printf("Error[%u]: ", error);
-  if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-  else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-  else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-  else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-  else if (error == OTA_END_ERROR) Serial.println("End Failed");
-  });
-  ArduinoOTA.begin();
-  Serial.println("Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
-
-
-
-  pinMode(RELAY1, OUTPUT);     // Initialize the RELAY pin as an output
-  pinMode(LED, OUTPUT);     // Initialize the LED pin as an output
-  digitalWrite(LED, LOW);   // Turn the LED ON
+    pinMode(RELAY1, OUTPUT);     // Initialize the RELAY pin as an output
+    pinMode(LED, OUTPUT);     // Initialize the LED pin as an output
+    digitalWrite(LED, LOW);   // Turn the LED ON
 
 //setup_wifi();
   client.setServer(server, 1883);
@@ -112,8 +67,7 @@ client.publish(TopicSTATERELAY1,"OFF");
 }
 
 void loop() {
-
-  ArduinoOTA.handle();
+  OTA_Loop();
 
 //  if (WiFi.status() != WL_CONNECTED) {
   //setup_wifi();
