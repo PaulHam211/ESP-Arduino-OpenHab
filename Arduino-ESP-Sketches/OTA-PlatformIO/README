@@ -4,7 +4,7 @@
 
 Requirements for OTA updates
 
-Edit existing code with the below and copy OTA.h into src folder.
+Edit existing sketches with the below and copy OTA.h into src folder.
 
 In platformio edit platformio.ini
 
