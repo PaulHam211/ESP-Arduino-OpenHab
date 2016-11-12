@@ -26,10 +26,8 @@ char const* outTopic = "/DEBUG/";
 // PIN Defines //
 int RELAY1 = 0;
 
-
 WiFiClient espClient;
 PubSubClient client(espClient);
-
 
 void setup() {
 
@@ -85,9 +83,13 @@ void reconnect() {
 
     if (client.connect(clientid)) {      // ***NEEDS TO BE UNIQUE***
       Serial.println("MQTT Connected");
-      Serial.println("MQTT Connected");
+      
       // Once connected, publish an announcement...
-      client.publish(outTopic, debugmess);
+      //client.publish(outTopic, debugmess);
+      String ipaddress = debugmess + WiFi.localIP().toString();
+      char ipchar[ipaddress.length()+1];
+      ipaddress.toCharArray(ipchar,ipaddress.length()+1);
+      client.publish(outTopic, ipchar);
 
       // ... and resubscribe
       client.subscribe(TopicCOMRELAY1);

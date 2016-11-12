@@ -111,8 +111,14 @@ void reconnect() {
 
     if (client.connect(clientid)) {
       Serial.println("MQTT Connected");
+
       // Once connected, publish an announcement...
-      client.publish(outTopic, debugmess);
+      //client.publish(outTopic, debugmess);
+      String ipaddress = debugmess + WiFi.localIP().toString();
+      char ipchar[ipaddress.length()+1];
+      ipaddress.toCharArray(ipchar,ipaddress.length()+1);
+      client.publish(outTopic, ipchar);
+
       // ... and resubscribe
       client.subscribe(TopicCOMRELAY1);
 blink2(2);

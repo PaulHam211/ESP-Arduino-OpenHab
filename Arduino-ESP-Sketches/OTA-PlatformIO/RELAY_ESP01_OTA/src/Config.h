@@ -11,4 +11,4 @@
   char const* TopicSTATERELAY1 = "/test/lamp/relay/1/state/";
 
 // Debug message to send on sucessful connection
-  char const* debugmess = "Test Lamp Connected";
+  char const* debugmess = "Test Lamp Connected on ";
