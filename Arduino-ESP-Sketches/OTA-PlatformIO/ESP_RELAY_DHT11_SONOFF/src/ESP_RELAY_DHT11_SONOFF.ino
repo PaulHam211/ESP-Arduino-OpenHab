@@ -63,7 +63,7 @@ void setup() {
   dht.begin();
 
   // Publish Relay1 OFF start up
-client.publish(TopicSTATERELAY1,"OFF");
+//client.publish(TopicSTATERELAY1,"OFF");
 }
 
 void loop() {
