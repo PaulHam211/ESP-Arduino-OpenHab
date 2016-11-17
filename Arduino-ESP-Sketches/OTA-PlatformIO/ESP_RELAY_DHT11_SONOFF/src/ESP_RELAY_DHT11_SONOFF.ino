@@ -35,6 +35,7 @@ int RELAY1 = 12;
 //int LED = 13;
 int LED = 0;
 
+int relaystate = 0;
 // WiFi DEFINES //
 // SSID & Passcode set in SSIDPASS.h
 
@@ -45,7 +46,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 
-unsigned long previousMillis = 0;        // will store last time LED was updated
+unsigned long previousMillis = 1700000;        // will store last time LED was updated
 
 // constants won't change :
 const long interval = 1800000;           // 0.5hr interval at which to send Temp (milliseconds)
@@ -56,6 +57,8 @@ void setup() {
     pinMode(RELAY1, OUTPUT);     // Initialize the RELAY pin as an output
     pinMode(LED, OUTPUT);     // Initialize the LED pin as an output
     digitalWrite(LED, LOW);   // Turn the LED ON
+    digitalWrite(RELAY1, LOW);
+    relaystate = LOW;
 
 //setup_wifi();
   client.setServer(server, 1883);
@@ -131,9 +134,16 @@ blink2(2);
       // Wait 5 seconds before retrying
       delay(5000);
     }
-   if(digitalRead(RELAY1) == LOW){
-      client.publish(TopicSTATERELAY1,"OFF");
-      }
+   //if(digitalRead(RELAY1) == LOW){
+      //client.publish(TopicSTATERELAY1,"OFF");
+    //  }
+
+ if (relaystate == LOW) {
+   client.publish(TopicSTATERELAY1,"ON");
+ } else if (relaystate == HIGH){
+   client.publish(TopicSTATERELAY1,"OFF");
+ }
+
       }
   }
 
@@ -201,10 +211,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
     if (strcmp(topic,TopicCOMRELAY1)==0) {
   if ((char)payload[0] == '1') {
     digitalWrite(RELAY1, HIGH);
+    relaystate = HIGH;
     client.publish(TopicSTATERELAY1,"ON");
 
   } else {
     digitalWrite(RELAY1, LOW);
+    relaystate = LOW;
     client.publish(TopicSTATERELAY1,"OFF");
   }
 

@@ -2,7 +2,7 @@
 
 // Mosquitto Server IP
   char const* server = "192.168.1.10";
-/*
+
 // Client/Device ID for Mosquitto
   char const* clientid = "GardenDHTRELAY";
 
@@ -16,8 +16,7 @@
 // Debug message to send on sucessful connection
   char const* debugmess = "Garden DHT-Relay Connected On ";
 
-*/
-
+/*
 //TEST
 
 // Client/Device ID for Mosquitto
@@ -32,3 +31,4 @@
 
 // Debug message to send on sucessful connection
   char const* debugmess = "test garden Connected On ";
+  */
