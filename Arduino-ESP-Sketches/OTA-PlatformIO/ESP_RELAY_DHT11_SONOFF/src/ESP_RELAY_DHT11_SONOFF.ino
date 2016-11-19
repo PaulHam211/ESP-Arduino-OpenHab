@@ -35,7 +35,7 @@ int RELAY1 = 12;
 //int LED = 13;
 int LED = 0;
 
-int relaystate = 0;
+int relaystate = 1;
 // WiFi DEFINES //
 // SSID & Passcode set in SSIDPASS.h
 
@@ -58,7 +58,6 @@ void setup() {
     pinMode(LED, OUTPUT);     // Initialize the LED pin as an output
     digitalWrite(LED, LOW);   // Turn the LED ON
     digitalWrite(RELAY1, LOW);
-    relaystate = LOW;
 
 //setup_wifi();
   client.setServer(server, 1883);
@@ -81,6 +80,9 @@ void loop() {
   }
    client.loop();
   DHTSensor();
+
+
+
   }
 
 
@@ -130,7 +132,6 @@ blink2(2);
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
-
       // Wait 5 seconds before retrying
       delay(5000);
     }
@@ -138,11 +139,12 @@ blink2(2);
       //client.publish(TopicSTATERELAY1,"OFF");
     //  }
 
- if (relaystate == LOW) {
-   client.publish(TopicSTATERELAY1,"ON");
- } else if (relaystate == HIGH){
-   client.publish(TopicSTATERELAY1,"OFF");
- }
+    if (relaystate == HIGH) {
+      client.publish(TopicSTATERELAY1,"ON");
+   }
+    if (relaystate == LOW){
+      client.publish(TopicSTATERELAY1,"OFF");
+    }
 
       }
   }
@@ -197,6 +199,7 @@ delay(250);
 count= count -1;
 }
 }
+
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(TopicCOMRELAY1);
